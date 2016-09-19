@@ -26,19 +26,11 @@
             $sqlQueryStr = $sqlStr.' and sInstrumentID =\''.$rowInstrument['sInstrumentID'].'\'';
             $result = mysql_query($sqlQueryStr,$conn) or die('fail in mysql_query:'.$sqlStr);
 
-            $instrumentLast = 'select * from InstrumentNow where sInstrumentID =\''.$rowInstrument['sInstrumentID'].'\'';
-            $instrumentLastResult = mysql_query($instrumentLast,$conn) or die('fail in mysql_query:'.$instrumentLast);
-            $instrumentLastResult = mysql_fetch_array($instrumentLastResult);
-
             $i = 0;
 
             $instrument['Num'] = $n;
 
             $instrument['sInstrumentID'] = $rowInstrument['sInstrumentID'];
-            //持仓量
-            $instrument['iOpenInterest'] = $instrumentLastResult['iOpenInterest'];
-            //成交金额
-            $instrument['iTurnover'] = $instrumentLastResult['iTurnover'];
             //合约
             $instrument['options'] = array();
 

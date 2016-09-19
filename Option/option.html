@@ -29,43 +29,29 @@
                                         <p class="form-control-static">交易商:华信万达</p>
                                     </th>
                                 </tr>
-                                <tr>
-                                    <th>
-                                        <p>标的期货:{{selectedInstrument.options[0].sInstrumentType}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <p>最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}</p>
-                                    </th>
-                                </tr>
                             </table>
                         </div>
                         <div class="col-md-8">
                             <table class="table table-bordered table-condensed">
                                 <thead>
-                                    <tr>
+                                    <tr class="info">
+                                        <th class="text-center">标的期货
+                                        </th>
                                         <th class="text-center">合约代码
                                         </th>
                                         <th class="text-center">最新价格
                                         </th>
-                                        <th class="text-center">持仓量
-                                        </th>
-                                        <th class="text-center">成交量
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="info">
+                                    <tr>
                                         <td>
                                             <select ng-change="change(selectedInstrument.Num)" ng-model="selectedInstrument" ng-options="Instrument.sInstrumentID for Instrument in Instrumentlist" class="form-control text-center">
                                             </select>
                                         </td>
+                                        <td class="text-center">{{selectedInstrument.options[0].sInstrumentType}}
+                                        </td>
                                         <td class="text-center">{{selectedInstrument.options[0].iLastPrice|number:2}}
-                                        </td>
-                                        <td class="text-center">{{selectedInstrument.iOpenInterest|number:0}}
-                                        </td>
-                                        <td class="text-center">{{selectedInstrument.iTurnover|number:0}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -75,7 +61,7 @@
                     <div class="row-fluid">
                         <div class="col-md-10">
                             <p>
-                                <strong>期权报价</strong>(固定期限：1个月)
+                                <strong>期权报价</strong>(期权期限:1个月&nbsp&nbsp&nbsp&nbsp最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}&nbsp&nbsp&nbsp&nbsp报价单位:元/单位)
                             </p>
                         </div>
                         <div class="col-md-2">
@@ -149,6 +135,9 @@
                         </div>
                         <div class="col-md-6">
                             <p class="text-warning text-right">
+                                <strong>若有其他期权定制、询价等需求，请联系我们</strong>
+                            </p>
+                            <p class="text-warning text-right">
                                 <strong>联系人：黄芬红</strong>
                             </p>
                             <p class="text-warning text-right">
@@ -171,7 +160,6 @@ angular.module('optionApp', [])
                 if (typeof(x) != "undefined") {
                     selectedNum = x;
                 }
-
             }
 
             $http.get(url).success(function(response) {
@@ -180,8 +168,10 @@ angular.module('optionApp', [])
             });
             $interval(function() {
                 $http.get(url).success(function(response) {
-                    $scope.Instrumentlist = response.List;
-                    $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
+                    if (response.List.length>0) {
+                        $scope.Instrumentlist = response.List;
+                        $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
+                    }
                 });
             }, 20000);
         }
