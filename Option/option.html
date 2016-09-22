@@ -61,7 +61,7 @@
                     <div class="row-fluid">
                         <div class="col-md-10">
                             <p>
-                                <strong>期权报价</strong>(期权期限:1个月&nbsp&nbsp&nbsp&nbsp最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}&nbsp&nbsp&nbsp&nbsp报价单位:元/单位)&nbsp&nbsp&nbsp&nbsp更新频率:20秒/次
+                                <strong>期权报价</strong>(期权期限:1个月&nbsp&nbsp&nbsp&nbsp最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}&nbsp&nbsp&nbsp&nbsp报价单位:元/单位)
                             </p>
                         </div>
                         <div class="col-md-2">
@@ -168,12 +168,13 @@ angular.module('optionApp', [])
             });
             $interval(function() {
                 $http.get(url).success(function(response) {
-                    if (response.List.length>0) {
+                    if(typeof(response.List) != "undefined")
+                    {
                         $scope.Instrumentlist = response.List;
                         $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
                     }
                 });
-            }, 20000);
+            }, 9300);
         }
     ])
 </script>
