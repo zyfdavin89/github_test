@@ -1,4 +1,9 @@
 <?php
+    /**
+     * Coder:张一帆
+     * LastEditDay:2016/8/5
+     * Usage:期权模型类
+     */
     class Option
     {
         public $sCompanyName;

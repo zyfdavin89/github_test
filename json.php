@@ -7,10 +7,10 @@
     header('Access-Control-Allow-Origin:*');
     header('content-type:application/json;charset=utf8');
 
-    //导入模型类->Option
+    // 导入模型类->Option
     require('Model_Option.php');
 
-    //导入数据库连接,输入sqlStr,返回result
+    // 导入数据库查询
     require('Conn.php');
 
     if($resultInstrument)
@@ -31,7 +31,7 @@
             $instrument['Num'] = $n;
 
             $instrument['sInstrumentID'] = $rowInstrument['sInstrumentID'];
-            //合约
+
             $instrument['options'] = array();
 
             while ($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
@@ -54,8 +54,6 @@
 
                 $i++;
             }
-
-            //$instrument = array($rowInstrument['sInstrumentID'] => $instrument);
 
             $List[$n] = $instrument;
 

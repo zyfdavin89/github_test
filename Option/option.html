@@ -1,182 +1,330 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>期权报价</title>
+        <script src="Scripts/angular.min.js"></script>
+        <script src="Scripts/jquery.min.js"></script>
+        <script src="Scripts/bootstrap.min.js"></script>
+        <script src="Scripts/bootstrap-datetimepicker.change.js"></script>
+        <script src="Scripts/bootstrap-datetimepicker.zh-CN.js"></script>
+        <!-- Bootstrap -->
+        <link href="Content/bootstrap.min.css" rel="stylesheet">
+        <link href="Content/bootstrap-datetimepicker.css" rel="stylesheet">
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>期权报价</title>
-    <script src="Scripts/angular.min.js"></script>
-    <script src="Scripts/jquery.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
-    <!-- Bootstrap -->
-    <link href="Content/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <div ng-app="optionApp" ng-controller="optionCtrl">
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="col-md-12">
-                    <div class="row">
-                        <br />
-                        <br />
-                        <div class="col-md-4">
-                            <table>
-                                <tr>
-                                    <th>
-                                        <p class="form-control-static">交易商:华信万达</p>
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-8">
-                            <table class="table table-bordered table-condensed">
-                                <thead>
-                                    <tr class="info">
-                                        <th class="text-center">合约代码
-                                        </th>
-                                        <th class="text-center">期货品种
-                                        </th>
-                                        <th class="text-center">最新价格
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+    <body>
+        <div ng-app="optionApp" ng-controller="optionCtrl">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <br />
+                            <br />
+                            <div class="col-md-4">
+                                <table>
                                     <tr>
-                                        <td>
-                                            <select ng-change="change(selectedInstrument.Num)" ng-model="selectedInstrument" ng-options="Instrument.sInstrumentID for Instrument in Instrumentlist" class="form-control text-center">
-                                            </select>
-                                        </td>
-                                        <td class="text-center">{{selectedInstrument.options[0].sInstrumentType}}
-                                        </td>
-                                        <td class="text-center">{{selectedInstrument.options[0].iLastPrice|number:2}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="col-md-10">
-                            <p>
-                                <strong>期权报价</strong>(期权期限:1个月&nbsp&nbsp&nbsp&nbsp最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}&nbsp&nbsp&nbsp&nbsp报价单位:元/单位)
-                            </p>
-                        </div>
-                        <div class="col-md-2">
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="col-md-6">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="warning">
-                                        <th colspan="5" class="text-center">看涨期权</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="warning text-center">行权价
-                                        </th>
-                                        <th class="text-center">客户买价
-                                        </th>
-                                        <th class="text-center">客户买价%
-                                        </th>
-                                        <th class="text-center">客户卖价
-                                        </th>
-                                        <th class="text-center">客户卖价%
+                                        <th>
+                                            <p class="form-control-static">交易商:华信万达</p>
                                         </th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="call in selectedInstrument.options | filter:{sOptionType:'C'} | orderBy:'+iInstrumentPrice'">
-                                        <td class="warning text-right">{{call.iInstrumentPrice|number:2}}</td>
-                                        <td class="text-right">{{call.iBuy|number:2}}</td>
-                                        <td class="text-right">{{(call.iBuy/call.iLastPrice)*100|number:2}}%</td>
-                                        <td class="text-right">{{call.iSell|number:2}}</td>
-                                        <td class="text-right">{{(call.iSell/call.iLastPrice)*100|number:2}}%</td>
-                                </tbody>
-                            </table>
+                                </table>
+                            </div>
+                            <div class="col-md-8">
+                                <table class="table table-bordered table-condensed">
+                                    <thead>
+                                        <tr class="info">
+                                            <th class="text-center">合约代码
+                                            </th>
+                                            <th class="text-center">期货品种
+                                            </th>
+                                            <th class="text-center">最新价格
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select ng-change="change(selectedInstrument.Num)" ng-model="selectedInstrument" ng-options="Instrument.sInstrumentID for Instrument in Instrumentlist" class="form-control text-center">
+                                                </select>
+                                            </td>
+                                            <td class="text-center">{{selectedInstrument.options[0].sInstrumentType}}
+                                            </td>
+                                            <td class="text-center">{{selectedInstrument.options[0].iLastPrice|number:2}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <table class="table table-bordered" border="1">
-                                <thead>
-                                    <tr class="success">
-                                        <th colspan="5" class="text-center">看跌期权</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="success text-center">行权价
-                                        </th>
-                                        <th class="text-center">客户买价
-                                        </th>
-                                        <th class="text-center">客户买价%
-                                        </th>
-                                        <th class="text-center">客户卖价
-                                        </th>
-                                        <th class="text-center">客户卖价%
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="put in selectedInstrument.options | filter:{sOptionType:'P'} | orderBy:'+iInstrumentPrice'">
-                                        <td class="success text-right">{{put.iInstrumentPrice|number:2}}</td>
-                                        <td class="text-right">{{put.iBuy|number:2}}</td>
-                                        <td class="text-right">{{(put.iBuy/put.iLastPrice)*100|number:2}}%</td>
-                                        <td class="text-right">{{put.iSell|number:2}}</td>
-                                        <td class="text-right">{{(put.iSell/put.iLastPrice)*100|number:2}}%</td>
-                                </tbody>
-                            </table>
+                        <div class="row-fluid">
+                            <div class="col-md-10">
+                                <p>
+                                    <strong>欧式期权报价</strong>(期权期限:1个月&nbsp&nbsp&nbsp&nbsp最小交易单位:{{selectedInstrument.options[0].sSmallestUnit}}&nbsp&nbsp&nbsp&nbsp报价单位:元/单位)
+                                </p>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="col-md-6">
-                            <p class="text-success text-left">
-                                <strong>{{selectedInstrument.options[0].dDate}}</strong>
-                            </p>
+                        <div class="row-fluid">
+                            <div class="col-md-6">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="warning">
+                                            <th colspan="5" class="text-center">看涨期权</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="warning text-center">行权价
+                                            </th>
+                                            <th class="text-center">客户买价
+                                            </th>
+                                            <th class="text-center">客户买价%
+                                            </th>
+                                            <th class="text-center">客户卖价
+                                            </th>
+                                            <th class="text-center">客户卖价%
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="call in selectedInstrument.options | filter:{sOptionType:'C'} | orderBy:'+iInstrumentPrice'">
+                                            <td class="warning text-right">{{call.iInstrumentPrice|number:2}}</td>
+                                            <td class="text-right">{{call.iBuy|number:2}}</td>
+                                            <td class="text-right">{{(call.iBuy/call.iLastPrice)*100|number:2}}%</td>
+                                            <td class="text-right">{{call.iSell|number:2}}</td>
+                                            <td class="text-right">{{(call.iSell/call.iLastPrice)*100|number:2}}%</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-bordered" border="1">
+                                    <thead>
+                                        <tr class="success">
+                                            <th colspan="5" class="text-center">看跌期权</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="success text-center">行权价
+                                            </th>
+                                            <th class="text-center">客户买价
+                                            </th>
+                                            <th class="text-center">客户买价%
+                                            </th>
+                                            <th class="text-center">客户卖价
+                                            </th>
+                                            <th class="text-center">客户卖价%
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="put in selectedInstrument.options | filter:{sOptionType:'P'} | orderBy:'+iInstrumentPrice'">
+                                            <td class="success text-right">{{put.iInstrumentPrice|number:2}}</td>
+                                            <td class="text-right">{{put.iBuy|number:2}}</td>
+                                            <td class="text-right">{{(put.iBuy/put.iLastPrice)*100|number:2}}%</td>
+                                            <td class="text-right">{{put.iSell|number:2}}</td>
+                                            <td class="text-right">{{(put.iSell/put.iLastPrice)*100|number:2}}%</td>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <p class="text-warning text-right">
-                                <strong>若有其他期权定制、询价等需求，请联系我们</strong>
-                            </p>
-                            <p class="text-warning text-right">
-                                <strong>联系人：黄芬红</strong>
-                            </p>
-                            <p class="text-warning text-right">
-                                <strong>电话：0371 - 69106053</strong>{{}}
-                            </p>
+                        <div class="row-fluid">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3>询价</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="future_instrument">合约</label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" readonly id="future_instrument" type="text" value={{selectedInstrument.options[0].sInstrumentID}} />
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="change_model">类型</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control" id="change_model">
+                                                        <option>美式期权</option>
+                                                        <option>欧式期权</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="option_type">涨跌</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control" id="option_type">
+                                                        <option>看涨(Call)</option>
+                                                        <option>看跌(Put)</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="operate_type">买卖</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control" id="operate_type">
+                                                        <option>买(Buy)</option>
+                                                        <option>卖(Sell)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="start_Date">计算日</label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="start_Date" readonly type="text" value={{selectedInstrument.options[0].dDate|limitTo:10}} />
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="end_Date">到期日</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" placeholder="请选择到期日" id="end_Date" readonly class="form_date form-control" title="请选择到期日" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="striking_price">执行价</label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="striking_price" type="text" placeholder="请输入执行价"/>
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="quoted_price">报价</label>
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="quoted_price" readonly type="text" placeholder="点击查询按钮显示报价"/>
+                                                </div>
+                                            </div>
+                                            <center>
+                                                <button type="submit" id="valButton" class="btn btn-default" onclick="calVal()">查询</button>
+                                            </center>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="col-md-6">
+                                <p class="text-success text-left">
+                                    <strong>{{selectedInstrument.options[0].dDate}}</strong>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-warning text-right">
+                                    <strong>若有其他期权定制、询价等需求，请联系我们</strong>
+                                </p>
+                                <p class="text-warning text-right">
+                                    <strong>联系人：黄芬红</strong>
+                                </p>
+                                <p class="text-warning text-right">
+                                    <strong>电话：0371 - 69106053</strong>{{}}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
-<script>
-var url = "//www.wdqh.com/option/json.php";
-var selectedNum = 0;
-angular.module('optionApp', [])
-    .controller('optionCtrl', ['$scope', '$interval', '$http',
-        function($scope, $interval, $http) {
-            $scope.change = function(x) {
-                if (typeof(x) != "undefined") {
-                    selectedNum = x;
-                }
-            }
+    </body>
 
-            $http.get(url).success(function(response) {
-                $scope.Instrumentlist = response.List;
-                $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
-            });
-            $interval(function() {
-                $http.get(url).success(function(response) {
-                    if(typeof(response.List) != "undefined")
-                    {
+    <script type="text/javascript">
+        var today = new Date();      
+        var day = today.getDate();      
+        var month = today.getMonth() + 1;      
+        var year = today.getFullYear();      
+        var dateStr = year + "-" + month + "-" + day;
+
+        $(".form_date").datetimepicker({
+            format: 'yyyy-mm-dd',
+            minView: 2,
+            language:  'zh-CN',
+            todayHighlight: 1,
+            weekStart: 1,
+            autoclose: true,
+            startDate: dateStr
+        });     
+
+        var url = "//www.wdqh.com/option/json.php";
+        // var url = "//localhost:8080/c/json.php";
+        var selectedNum = 0;
+        angular.module('optionApp', [])
+            .controller('optionCtrl', ['$scope', '$interval', '$http',
+                function($scope, $interval, $http) {
+                    $scope.change = function(x) {
+                        if (typeof(x) != "undefined") {
+                            selectedNum = x;
+                            var instrument_day = ($scope.Instrumentlist[x].sInstrumentID).substr(-4);
+                            var end_day = year.substr(0,2) + instrument_day.substr(0,2) + '-' + instrument_day.substr(-2) + '-' + '01';
+                            $(".form_date").datetimepicker('setEndDate', end_day);
+                        }
+                    }
+
+                    $http.get(url).success(function(response) {
                         $scope.Instrumentlist = response.List;
                         $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
-                    }
-                });
-            }, 9300);
-        }
-    ])
-</script>
+                    });
 
+                    $interval(function() {
+                        $http.get(url).success(function(response) {
+                            if(typeof(response.List) != "undefined" || response.List.length >= 25)
+                            {
+                                $scope.Instrumentlist = response.List;
+                                $scope.selectedInstrument = $scope.Instrumentlist[selectedNum];
+                            }
+                        });
+                    }, 9700);
+                }
+            ])
+
+        function calVal(){
+            var future_instrument = $("#future_instrument").val();
+            var change_model = $("#change_model").val();
+            var option_type = $("#option_type").val();
+            var operate_type = $("#operate_type").val();
+            var start_Date = $("#start_Date").val()
+            var end_Date = $("#end_Date").val()
+            var striking_price = $("#striking_price").val()
+            var step = GetDateDiff(start_Date,end_Date)
+            if (step == 0){
+                alert("到期日不能选计算当日！");
+                return false;
+            }
+            if (isNaN(striking_price)){
+                alert("执行价不是数字!");
+                return false;
+            }
+            if (striking_price == ""){
+                alert("执行价不能为空！");
+                return false;
+            }
+            if (end_Date == ""){
+                alert("请选择到期日！");
+                return false;
+            }
+            change_model = change_model == '美式期权' ? 'amer' : 'eur';
+            option_type = option_type == '看涨(Call)'? 'call' : 'put';
+            operate_type = operate_type == '买(Buy)'? 'buy' : 'sell';
+
+            $.ajax({
+                url: "../ajax.php",
+                data: { future_instrument: future_instrument, change_model: change_model, option_type: option_type, operate_type: operate_type, striking_price: striking_price, step: step},
+                type: "post",
+                cache: false,
+                beforeSend: function () {
+                    $('#valButton').attr('disabled', true);
+                    $("#quoted_price").empty();
+                },
+                complete: function (data) {
+                    $('#valButton').removeAttr("disabled");
+                },
+                success: function (data){
+                    $("#quoted_price").val(data.quoted_price);
+                }
+            });
+        }
+
+        function GetDateDiff(startDate,endDate)  
+        {  
+            var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();     
+            var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();     
+            var dates = ((endTime- startTime))/(1000*60*60*24);     
+            return dates;
+        }
+    </script>
 </html>
