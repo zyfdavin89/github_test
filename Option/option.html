@@ -80,13 +80,13 @@
                                         <tr>
                                             <th class="warning text-center">行权价
                                             </th>
-                                            <th class="text-center">客户买价
+                                            <th class="text-center">买入开仓价
                                             </th>
-                                            <th class="text-center">客户买价%
+                                            <th class="text-center">买入开仓价%
                                             </th>
-                                            <th class="text-center">客户卖价
+                                            <th class="text-center">卖出开仓价
                                             </th>
-                                            <th class="text-center">客户卖价%
+                                            <th class="text-center">卖出开仓价%
                                             </th>
                                         </tr>
                                     </thead>
@@ -109,13 +109,13 @@
                                         <tr>
                                             <th class="success text-center">行权价
                                             </th>
-                                            <th class="text-center">客户买价
+                                            <th class="text-center">买入开仓价
                                             </th>
-                                            <th class="text-center">客户买价%
+                                            <th class="text-center">买入开仓价%
                                             </th>
-                                            <th class="text-center">客户卖价
+                                            <th class="text-center">卖出开仓价
                                             </th>
-                                            <th class="text-center">客户卖价%
+                                            <th class="text-center">卖出开仓价%
                                             </th>
                                         </tr>
                                     </thead>
@@ -164,8 +164,8 @@
                                                 <label class="col-sm-2 control-label" for="operate_type">买卖</label>
                                                 <div class="col-sm-4">
                                                     <select class="form-control" id="operate_type">
-                                                        <option>买(Buy)</option>
-                                                        <option>卖(Sell)</option>
+                                                        <option>买入开仓(Buy)</option>
+                                                        <option>卖出开仓(Sell)</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -299,7 +299,7 @@
             }
             change_model = change_model == '美式期权' ? 'amer' : 'eur';
             option_type = option_type == '看涨(Call)'? 'call' : 'put';
-            operate_type = operate_type == '买(Buy)'? 'buy' : 'sell';
+            operate_type = operate_type == '买入开仓(Buy)'? 'buy' : 'sell';
 
             $.ajax({
                 url: "../ajax.php",
